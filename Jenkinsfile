@@ -60,7 +60,7 @@ It may not necessarily work/behave in the same way as post-build actions work.
 A logic review is suggested.
 */
 		// Mailer notification
-		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'springdoc99@gmail.com', sendToIndividuals: false])
+		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'erwan.bodere@gmail.com', sendToIndividuals: false])
  
 	}
 }
