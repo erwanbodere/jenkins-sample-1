@@ -89,4 +89,11 @@
 		<url>http://localhost:8081/repository/maven-releases/</url>
 	</repository>
 </distributionManagement>
+	
+  <scm>
+  	<connection>scm:git:https://github.com/erwanbodere/jenkins-sample-1.git</connection>
+  	<url>https://github.com/erwanbodere/jenkins-sample-1</url>
+  	<developerConnection>scm:git:https://github.com/erwanbodere/jenkins-sample-1.git</developerConnection>
+  </scm>
+  
 </project>
