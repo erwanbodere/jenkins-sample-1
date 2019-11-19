@@ -5,7 +5,7 @@
 
   <groupId>fr.orsys.samples</groupId>
   <artifactId>SampleProject</artifactId>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
 
   <name>SampleProject</name>
   <!-- FIXME change it to the project's website -->
@@ -93,7 +93,7 @@
   	<connection>scm:git:https://github.com/erwanbodere/jenkins-sample-1.git</connection>
   	<url>https://github.com/erwanbodere/jenkins-sample-1</url>
   	<developerConnection>scm:git:https://github.com/erwanbodere/jenkins-sample-1.git</developerConnection>
-    <tag>SampleProject-1.0</tag>
+    <tag>SampleProject-1.1</tag>
   </scm>
   
 </project>
