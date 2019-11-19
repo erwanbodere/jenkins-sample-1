@@ -4,13 +4,11 @@ timestamps {
 
 node () {
 
-	stage ('maven - Checkout') {
- 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'f92510d0-619a-46ce-a702-93bbe3c16ab1', url: 'https://github.com/erwanbodere/jenkins-sample-1.git']]]) 
+	stage ('APP-IC - Checkout') {
+ 	 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git-login', url: 'https://github.com/bnasslahsen/jenkins-sample-1.git']]]) 
 	}
-	stage ('maven - Build') {
- 	
-// Unable to convert a build step referring to "hudson.plugins.ws__cleanup.PreBuildCleanup". Please verify and convert manually if required.
-// Unable to convert a build step referring to "hudson.plugins.timestamper.TimestamperBuildWrapper". Please verify and convert manually if required.		// Maven build step
+	stage ('APP-IC - Build') {
+ 			// Maven build step
 	withMaven(maven: 'maven') { 
  			if(isUnix()) {
  				sh "mvn clean package " 
@@ -19,7 +17,7 @@ node () {
 			} 
  		} 
 	}
-stage ('APP-IC - Quality Analysis') {
+	stage ('APP-IC - Quality Analysis') {
 	withMaven(maven: 'maven') { 
  			if(isUnix()) {
  				sh "mvn sonar:sonar" 
@@ -27,15 +25,42 @@ stage ('APP-IC - Quality Analysis') {
  				bat "mvn sonar:sonar" 
 			} 
  		} 
-}	
-	stage ('maven - Post build actions') {
+       }
+	stage ('APP-IC - Deploy') {
+	withMaven(maven: 'maven') { 
+ 			if(isUnix()) {
+ 				sh "mvn deploy" 
+			} else { 
+ 				bat "mvn deploy" 
+			} 
+ 		} 
+	}
+	
+	
+	stage("Release") {
+            when {
+                expression { params.RELEASE }
+            }
+            steps {
+                sh "mvn -B release:prepare"
+                sh "mvn -B release:perform"
+            }
+        }
+	
+     parameters {
+        booleanParam(name: "RELEASE",
+                description: "Build a release from current commit.",
+                defaultValue: false)
+    }
+	
+	stage ('APP-IC - Post build actions') {
 /*
 Please note this is a direct conversion of post-build actions. 
 It may not necessarily work/behave in the same way as post-build actions work.
 A logic review is suggested.
 */
 		// Mailer notification
-		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'erwan.bodere@ifremer.fr', sendToIndividuals: false])
+		step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: 'springdoc99@gmail.com', sendToIndividuals: false])
  
 	}
 }
